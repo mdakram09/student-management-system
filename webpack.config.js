@@ -4,6 +4,18 @@ const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const TerserPlugin = require('terser-webpack-plugin');
 const webpack = require('webpack');
 
+function getSrcAndFoldersPath(folderName = '') {
+  let srcPath = './src';
+
+  if (folderName.length > 0) {
+    // Using path.join for preserving cross-platform
+    // Please don't use normal string paths to avoid slash errors
+    srcPath = path.join(srcPath, folderName);
+  }
+
+  return path.resolve(srcPath);
+}
+
 module.exports = {
   entry: './src/index.js',
   output: {
@@ -97,6 +109,9 @@ module.exports = {
   },
   resolve: {
     extensions: ['.js'],
+    alias: {
+      '@components': getSrcAndFoldersPath('components'),
+    },
   },
   devtool: 'source-map',
 };
